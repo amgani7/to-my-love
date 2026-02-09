@@ -1,200 +1,50 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<title>Countdown 💗</title>
-
-<!-- Lovely font -->
-<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600&family=Poppins:wght@300;400&display=swap" rel="stylesheet">
-
-<style>
-*{box-sizing:border-box;}
-
-body{
-  margin:0;
-  height:100vh;
-  background:linear-gradient(180deg,#fff0f6,#ffe3ec);
-  font-family:'Poppins',sans-serif;
-  display:flex;
-  justify-content:center;
-  align-items:center;
-  overflow:hidden;
-  color:#333;
-}
-
-/* Floating hearts */
-.heart{
-  position:absolute;
-  bottom:-50px;
-  font-size:28px;
-  animation:float 9s linear infinite;
-  opacity:0.7;
-}
-@keyframes float{
-  0%{transform:translateY(0);opacity:0;}
-  20%{opacity:1;}
-  100%{transform:translateY(-120vh);opacity:0;}
-}
-
-/* Container */
-.container{
-  text-align:center;
-  padding:40px;
-  animation:fadeIn 1.2s ease;
-}
-@keyframes fadeIn{
-  from{opacity:0;transform:translateY(30px);}
-  to{opacity:1;transform:translateY(0);}
-}
-
-.title{
-  font-family:'Playfair Display',serif;
-  font-size:34px;
-  margin-bottom:10px;
-  color:#d6336c;
-}
-
-.subtitle{
-  font-size:16px;
-  opacity:0.85;
-  margin-bottom:30px;
-}
-
-/* Timer */
-.timer{
-  display:flex;
-  justify-content:center;
-  gap:18px;
-}
-
-.box{
-  background:white;
-  padding:18px 16px;
-  border-radius:18px;
-  min-width:90px;
-  box-shadow:0 10px 25px rgba(0,0,0,0.08);
-  animation:pulse 1.6s infinite;
-}
-
-.box span{
-  font-size:34px;
-  font-weight:600;
-  display:block;
-  color:#e64980;
-}
-
-.box small{
-  font-size:13px;
-  opacity:0.7;
-}
-
-@keyframes pulse{
-  0%{transform:scale(1);}
-  50%{transform:scale(1.05);}
-  100%{transform:scale(1);}
-}
-
-/* Ending */
-.end{
-  display:none;
-  font-family:'Playfair Display',serif;
-  font-size:36px;
-  color:#e64980;
-  margin-top:20px;
-}
-</style>
+  <meta charset="UTF-8">
+  <title>For You</title>
+  <style>
+    body {
+      margin: 0;
+      height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: #0f0f0f;
+      font-family: 'Georgia', serif;
+      color: #eaeaea;
+    }
+    .letter {
+      max-width: 600px;
+      padding: 40px;
+      background: rgba(255,255,255,0.05);
+      border-radius: 12px;
+      line-height: 1.8;
+      animation: fadeIn 2s ease;
+    }
+    h1 {
+      font-size: 22px;
+      margin-bottom: 20px;
+      font-weight: normal;
+    }
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(20px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+  </style>
 </head>
-
 <body>
-
-<!-- 💗 Floating hearts -->
-<span class="heart" style="left:10%">💗</span>
-<span class="heart" style="left:30%;animation-delay:2s">💖</span>
-<span class="heart" style="left:50%;animation-delay:4s">💕</span>
-<span class="heart" style="left:70%;animation-delay:1s">💞</span>
-
-<!-- 🔊 Tick sound (single tick) -->
-<audio id="tick">
-  <source src="tick.mp3" type="audio/mpeg">
-</audio>
-
-<div class="container">
-
-  <div class="title">Counting Moments 💕</div>
-  <div class="subtitle">
-    Every second brings something beautiful ✨
+  <div class="letter">
+    <h1>Hey,</h1>
+    <p>
+      I don’t know what upset you, and I won’t force you to explain.<br>
+      I just want you to know that I never meant to hurt you.
+    </p>
+    <p>
+      If I made a mistake unknowingly, I’m sorry.<br>
+      When you feel calm, I’m always ready to listen.
+    </p>
+    <p>Take your time 🤍</p>
   </div>
-
-  <div class="timer" id="timer">
-    <div class="box">
-      <span id="days">00</span>
-      <small>Days</small>
-    </div>
-    <div class="box">
-      <span id="hours">00</span>
-      <small>Hours</small>
-    </div>
-    <div class="box">
-      <span id="minutes">00</span>
-      <small>Minutes</small>
-    </div>
-    <div class="box">
-      <span id="seconds">00</span>
-      <small>Seconds</small>
-    </div>
-  </div>
-
-  <div class="end" id="endMsg">
-    🎉 Today is the day 💗<br>
-    Hope it makes you smile ✨
-  </div>
-
-</div>
-
-<script>
-// 🎯 CHANGE DATE HERE
-const target = new Date("September 17, 2026 00:00:00").getTime();
-const tick = document.getElementById("tick");
-
-tick.volume = 0.25;
-
-let soundEnabled = false;
-let lastSecond = null;
-
-/* Enable sound after first interaction */
-document.body.addEventListener("click", () => {
-  soundEnabled = true;
-});
-
-setInterval(() => {
-  const now = new Date().getTime();
-  const diff = target - now;
-
-  if (diff <= 0) {
-    document.getElementById("timer").style.display = "none";
-    document.getElementById("endMsg").style.display = "block";
-    return;
-  }
-
-  const d = Math.floor(diff / (1000*60*60*24));
-  const h = Math.floor((diff / (1000*60*60)) % 24);
-  const m = Math.floor((diff / (1000*60)) % 60);
-  const s = Math.floor((diff / 1000) % 60);
-
-  days.innerText = d;
-  hours.innerText = h;
-  minutes.innerText = m;
-  seconds.innerText = s;
-
-  /* 💗 Perfect tick sync */
-  if (soundEnabled && s !== lastSecond) {
-    tick.currentTime = 0;
-    tick.play();
-    lastSecond = s;
-  }
-
-}, 1000);
-</script>
-
 </body>
 </html>
